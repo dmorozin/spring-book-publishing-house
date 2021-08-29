@@ -1,0 +1,241 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="unknown" id="1628101360327-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="author"/>
+            </not>
+        </preConditions>
+        <createTable tableName="author">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="author_pkey"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="book"/>
+            </not>
+        </preConditions>
+        <createTable tableName="book">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="book_pkey"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isbn" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-3">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="job"/>
+            </not>
+        </preConditions>
+        <createTable tableName="job">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="job_pkey"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="run_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="success" type="BOOLEAN"/>
+            <column name="message" type="clob"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-4">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="author_book"/>
+            </not>
+        </preConditions>
+        <createTable tableName="author_book">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="author_book_pkey"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="author_book_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-5">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkg7j6ud9d32ll232o9mgo90s57"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="author_book"
+                                 constraintName="fkg7j6ud9d32ll232o9mgo90s57" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="author" validate="true"/>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-6">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkn8665s8lv781v4eojs8jo3jao"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="author_book"
+                                 constraintName="fkn8665s8lv781v4eojs8jo3jao" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="book" validate="true"/>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-7">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="uk_isbn"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="isbn" constraintName="uk_isbn" tableName="book"/>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-8">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="uk_title"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="title" constraintName="uk_title" tableName="book"/>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-9">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="uk_name"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="name" constraintName="uk_name" tableName="author"/>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-10">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="index_book"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="index_book" tableName="author_book">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="unknown" id="1628101360327-11">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="index_author"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="index_author" tableName="author_book">
+            <column name="author_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="unknown" id="insert-author">
+        <insert tableName="author">
+            <column name="name" value="George R. R. Martin"/>
+        </insert>
+        <insert tableName="author">
+            <column name="name" value="J. K. Rowling"/>
+        </insert>
+        <insert tableName="author">
+            <column name="name" value="Andrzej Sapkowski"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="unknown" id="insert-book">
+        <insert tableName="book">
+            <column name="title" value="Game Of Thrones"/>
+            <column name="genre" value="Medieval Fantasy"/>
+            <column name="isbn" value="1232-5455-8787"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Clash of Kings"/>
+            <column name="genre" value="Medieval Fantasy"/>
+            <column name="isbn" value="4546-7898-4556"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Storm of Swords"/>
+            <column name="genre" value="Medieval Fantasy"/>
+            <column name="isbn" value="6565-7878-9989"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Feast for Crows"/>
+            <column name="genre" value="Medieval Fantasy"/>
+            <column name="isbn" value="7777-1111-8787"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Philosopher's Stone"/>
+            <column name="genre" value="Fantasy"/>
+            <column name="isbn" value="5454-9879-7847"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Chamber of Secrets"/>
+            <column name="genre" value="Fantasy"/>
+            <column name="isbn" value="5454-9879-4545"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="Order of the Phoenix "/>
+            <column name="genre" value="Fantasy"/>
+            <column name="isbn" value="5454-9879-1234"/>
+        </insert>
+        <insert tableName="book">
+            <column name="title" value="The Last Wish"/>
+            <column name="genre" value="Medieval Fantasy"/>
+            <column name="isbn" value="4545-4831-2303"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="unknown" id="insert-author-book">
+        <insert tableName="author_book">
+            <column name="book_id" value="1"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="2"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="3"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="4"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="5"/>
+            <column name="author_id" value="2"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="6"/>
+            <column name="author_id" value="2"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="7"/>
+            <column name="author_id" value="2"/>
+        </insert>
+        <insert tableName="author_book">
+            <column name="book_id" value="8"/>
+            <column name="author_id" value="3"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

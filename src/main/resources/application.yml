@@ -1,0 +1,36 @@
+server:
+  port: 8090
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/jwks.json
+  datasource:
+    url: jdbc:postgresql://localhost:5432/book_publishing_house
+    username: postgres
+    password: sasasa
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    changeLog: classpath:/db/changelog/changelog-master.xml
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: assignmenttest987@gmail.com
+    password: kkqtozpmmgwjkwrg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+email-to: fakemail
